@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Quieres ser mi novia?</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 4em;
+      color: black;
+      margin-bottom: 20px;
+      z-index: 2;
+    }
+
+    .buttons {
+      z-index: 2;
+    }
+
+    #yesBtn {
+      padding: 30px 60px;
+      font-size: 2em;
+      margin: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 15px;
+      border: none;
+      background-color: #ff69b4;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    #noBtn {
+      padding: 30px 60px;
+      font-size: 2em;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 15px;
+      border: none;
+      background-color: #ff69b4;
+      color: white;
+      position: absolute;
+      z-index: 3;
+    }
+
+    #message {
+      margin-top: 40px;
+      font-size: 2em;
+      color: #ff69b4;
+      display: none;
+      z-index: 2;
+    }
+
+    .heart {
+      position: absolute;
+      animation: floatUp 6s linear forwards;
+      font-size: 60px;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="question">¿Quieres ser mi novia?</h1>
+  <div class="buttons">
+    <button id="yesBtn">Sí</button>
+  </div>
+  <div id="message">Me encanta que tu respuesta sea sí, te amo mucho ❤️</div>
+
+  <button id="noBtn" style="top: 70%; left: 60%;">No</button>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const question = document.getElementById('question');
+
+    function crearCorazon(x = null, y = null) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '💖';
+
+      const size = Math.random() * 30 + 40;
+      heart.style.fontSize = size + 'px';
+      heart.style.color = ["#ffb6c1", "#dda0dd", "#ff69b4", "#e6a8d7", "#c71585"][Math.floor(Math.random() * 5)];
+      heart.style.opacity = 0.4 + Math.random() * 0.4;
+
+      heart.style.left = x !== null ? x + 'px' : Math.random() * window.innerWidth + 'px';
+      heart.style.bottom = y !== null ? y + 'px' : '0px';
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(() => crearCorazon(), 200);
+
+    yesBtn.addEventListener('click', () => {
+      message.style.display = 'block';
+      question.style.display = 'none';
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none'; // 🔴 Aquí ocultamos el botón "No"
+
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * 200;
+        crearCorazon(x, y);
+      }
+    });
+
+    function moverNoBtn() {
+      const newX = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const newY = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+    }
+
+    noBtn.addEventListener('mouseover', moverNoBtn);
+    noBtn.addEventListener('mousedown', moverNoBtn);
+    noBtn.addEventListener('touchstart', moverNoBtn);
+  </script>
+</body>
+</html>
